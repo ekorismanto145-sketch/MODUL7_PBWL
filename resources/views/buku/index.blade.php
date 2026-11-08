@@ -20,7 +20,7 @@
 <!-- Container Notifikasi Error & Berhasil -->
 <div id="alertContainer"></div>
 
-@can('kelola data buku')
+@can('kelola-buku')
 <!-- Formulir Tambah & Ubah Buku -->
 <div class="card border-0 shadow-sm rounded-3 mb-4">
     <div class="card-header bg-primary text-white py-3 rounded-top-3 d-flex justify-content-between align-items-center">
@@ -119,7 +119,7 @@
                                         </form>
                                     @endcan
 
-                                    @can('kelola data buku')
+                                    @can('kelola-buku')
                                         <div class="btn-group btn-group-sm">
                                             <button class="btn btn-outline-warning" onclick="editBuku({{ $item->id }})" title="Ubah Data">
                                                 <i class="bi bi-pencil-square"></i> Ubah
@@ -152,7 +152,7 @@
 
 <script>
     const API_URL = '/api/buku';
-    const canManageBuku = {{ auth()->user()?->can('kelola data buku') ? 'true' : 'false' }};
+    const canManageBuku = {{ auth()->user()?->can('kelola-buku') ? 'true' : 'false' }};
     const canPinjamBuku = {{ auth()->user()?->can('mengajukan peminjaman buku') ? 'true' : 'false' }};
     let dataBukuCache = [];
 

@@ -42,8 +42,14 @@ Route::middleware(['auth'])->group(function () {
     // Pencarian buku aman
     Route::get('/buku-cari', [BukuController::class, 'cari'])->name('buku.cari');
 
-    // Route DELETE berproteksi CSRF untuk penghapusan buku
-    Route::delete('/buku/{buku}', [BukuController::class, 'destroy'])->name('buku.destroy');
+    // Pengelolaan Buku Terpusat Menggunakan Gate kelola-buku (Soal 3)
+    Route::middleware(['can:kelola-buku'])->group(function () {
+        Route::get('/buku/create', [BukuController::class, 'create'])->name('buku.create');
+        Route::post('/buku', [BukuController::class, 'store'])->name('buku.store');
+        Route::get('/buku/{buku}/edit', [BukuController::class, 'edit'])->name('buku.edit');
+        Route::put('/buku/{buku}', [BukuController::class, 'update'])->name('buku.update');
+        Route::delete('/buku/{buku}', [BukuController::class, 'destroy'])->name('buku.destroy');
+    });
 
     // Celah A4: Detail peminjaman tanpa pemeriksaan kepemilikan (Rentan IDOR)
     Route::get('/peminjaman/{id}', [PeminjamanController::class, 'show'])->name('peminjaman.show');
@@ -66,11 +72,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/petugas/dashboard', [DashboardController::class, 'petugas'])
         ->middleware('permission:akses dashboard petugas')
         ->name('petugas.dashboard');
-
-    // Kelola Data Buku (Web Controller)
-    Route::middleware(['permission:kelola data buku'])->group(function () {
-        Route::resource('buku-admin', BukuController::class)->except(['index', 'show']);
-    });
 
     // Kelola Pengguna (Khusus Admin)
     Route::middleware(['permission:kelola data pengguna'])->group(function () {
