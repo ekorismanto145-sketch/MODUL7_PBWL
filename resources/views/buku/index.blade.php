@@ -95,55 +95,12 @@
                     </tr>
                 </thead>
                 <tbody id="tabelBukuBody">
-                    @forelse($buku as $item)
-                        <tr>
-                            <td class="ps-4">
-                                <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-medium">
-                                    <i class="bi bi-bookmark-fill me-1"></i>{{ $item->kategori->nama ?? 'Umum' }}
-                                </span>
-                            </td>
-                            <td>
-                                <strong class="text-dark">{{ $item->judul }}</strong>
-                            </td>
-                            <td class="text-secondary">{{ $item->penulis ?? '-' }}</td>
-                            <td class="text-center"><span class="badge bg-light text-dark border">{{ $item->tahun_terbit ?? '-' }}</span></td>
-                            <td class="text-center pe-4">
-                                <div class="d-flex justify-content-center align-items-center gap-1">
-                                    @can('mengajukan peminjaman buku')
-                                        <form method="POST" action="{{ route('peminjaman.ajukan') }}" class="d-inline">
-                                            @csrf
-                                            <input type="hidden" name="buku_id" value="{{ $item->id }}">
-                                            <button type="submit" class="btn btn-outline-success btn-sm rounded-pill px-3" title="Pinjam Buku Ini">
-                                                <i class="bi bi-journal-plus me-1"></i> Pinjam
-                                            </button>
-                                        </form>
-                                    @endcan
-
-                                    @can('kelola-buku')
-                                        <div class="btn-group btn-group-sm">
-                                            <button class="btn btn-outline-warning" onclick="editBuku({{ $item->id }})" title="Ubah Data">
-                                                <i class="bi bi-pencil-square"></i> Ubah
-                                            </button>
-                                            <form action="{{ route('buku.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus buku ini?')">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-outline-danger" title="Hapus Data">
-                                                    <i class="bi bi-trash"></i> Hapus
-                                                </button>
-                                            </form>
-                                        </div>
-                                    @endcan
-                                </div>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="5" class="text-center py-5 text-muted">
-                                <i class="bi bi-inbox fs-1 d-block mb-2 text-secondary"></i>
-                                Belum ada data koleksi buku.
-                            </td>
-                        </tr>
-                    @endforelse
+                    <tr>
+                        <td colspan="5" class="text-center py-4 text-muted">
+                            <div class="spinner-border spinner-border-sm text-primary me-2" role="status"></div>
+                            Sedang memuat data dari API...
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -151,7 +108,7 @@
 </div>
 
 <script>
-    const API_URL = '/api/buku';
+    const API_URL = "{{ url('api/buku') }}";
     const canManageBuku = {{ auth()->user()?->can('kelola-buku') ? 'true' : 'false' }};
     const canPinjamBuku = {{ auth()->user()?->can('mengajukan peminjaman buku') ? 'true' : 'false' }};
     let dataBukuCache = [];
@@ -197,7 +154,11 @@
         
         try {
             const response = await fetch(API_URL, {
-                headers: { 'Accept': 'application/json' }
+                credentials: 'same-origin',
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
             });
 
             if (!response.ok) {
