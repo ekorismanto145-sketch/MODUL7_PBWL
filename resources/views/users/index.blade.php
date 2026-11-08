@@ -50,24 +50,30 @@
                         @endforelse
                     </td>
                     <td class="border p-3 text-center">
-                        @can('kelola role pengguna')
-                            <form method="POST" action="{{ route('users.update', $user->id) }}" class="inline-flex items-center gap-1">
-                                @csrf
-                                @method('PUT')
-                                <select name="role" class="text-xs border-gray-300 rounded shadow-sm focus:border-indigo-500 focus:ring-indigo-500 py-1 px-2">
-                                    @foreach($roles as $roleOption)
-                                        <option value="{{ $roleOption->name }}" {{ $user->hasRole($roleOption->name) ? 'selected' : '' }}>
-                                            {{ ucfirst($roleOption->name) }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <button type="submit" class="px-2 py-1 bg-amber-500 text-white text-xs rounded hover:bg-amber-600 transition">
-                                    Simpan
-                                </button>
-                            </form>
+                        @if($user->hasRole('admin'))
+                            <span class="inline-flex items-center px-2.5 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">
+                                🔒 Utama (Admin Tetap)
+                            </span>
                         @else
-                            <span class="text-xs text-gray-400">Read-only</span>
-                        @endcan
+                            @can('kelola role pengguna')
+                                <form method="POST" action="{{ route('users.update', $user->id) }}" class="inline-flex items-center gap-1">
+                                    @csrf
+                                    @method('PUT')
+                                    <select name="role" class="text-xs border-gray-300 rounded shadow-sm focus:border-indigo-500 focus:ring-indigo-500 py-1 px-2">
+                                        @foreach($roles->where('name', '!=', 'admin') as $roleOption)
+                                            <option value="{{ $roleOption->name }}" {{ $user->hasRole($roleOption->name) ? 'selected' : '' }}>
+                                                {{ ucfirst($roleOption->name) }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <button type="submit" class="px-2 py-1 bg-amber-500 text-white text-xs rounded hover:bg-amber-600 transition">
+                                        Simpan
+                                    </button>
+                                </form>
+                            @else
+                                <span class="text-xs text-gray-400">Read-only</span>
+                            @endcan
+                        @endif
                     </td>
                 </tr>
                 @empty

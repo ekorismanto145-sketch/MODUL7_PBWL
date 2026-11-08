@@ -41,11 +41,17 @@ class UserController extends Controller
 
     public function update(Request $request, string $id)
     {
+        $user = User::findOrFail($id);
+
+        // Kunci akun admin agar role-nya tidak dapat diubah
+        if ($user->hasRole('admin')) {
+            return redirect()->route('users.index')->with('error', 'Role Administrator dikunci dan tidak dapat diubah.');
+        }
+
         $request->validate([
             'role' => ['required', 'string', 'exists:roles,name'],
         ]);
 
-        $user = User::findOrFail($id);
         $user->syncRoles([$request->role]);
 
         return redirect()->route('users.index')->with('success', "Role untuk pengguna {$user->name} berhasil diperbarui menjadi {$request->role}.");
