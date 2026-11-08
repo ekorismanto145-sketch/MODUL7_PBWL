@@ -22,10 +22,11 @@
             <table class="table table-hover align-middle mb-0">
                 <thead class="table-light text-secondary text-uppercase fs-7">
                     <tr>
-                        <th class="ps-3" style="width: 35%;">Judul Buku</th>
+                        <th class="ps-3" style="width: 30%;">Judul Buku</th>
                         <th style="width: 20%;">Tanggal Pinjam</th>
-                        <th style="width: 25%;">Tanggal Kembali</th>
-                        <th class="text-center" style="width: 20%;">Status</th>
+                        <th style="width: 20%;">Tanggal Kembali</th>
+                        <th class="text-center" style="width: 15%;">Status</th>
+                        <th class="text-center pe-3" style="width: 15%;">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -46,6 +47,11 @@
                                         <i class="bi bi-hourglass-split me-1"></i> Sedang Dipinjam
                                     </span>
                                 @endif
+                            </td>
+                            <td class="text-center pe-3">
+                                <a href="{{ route('peminjaman.show', $item->id) }}" class="btn btn-outline-info btn-sm rounded-pill px-3" title="Lihat Detail Transaksi">
+                                    <i class="bi bi-eye me-1"></i> Detail
+                                </a>
                             </td>
                         </tr>
                     @empty

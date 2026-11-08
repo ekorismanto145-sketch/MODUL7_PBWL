@@ -270,12 +270,14 @@
                         </span>
                     </td>
                     <td>
-                        <strong class="text-dark">${judulBuku}</strong>
+                        <strong class="text-dark"></strong>
                     </td>
-                    <td class="text-secondary">${buku.penulis ?? '-'}</td>
+                    <td class="text-secondary"></td>
                     <td class="text-center"><span class="badge bg-light text-dark border">${buku.tahun_terbit ?? '-'}</span></td>
                     ${actionColumnHtml}
                 `;
+                tr.children[1].querySelector('strong').textContent = judulBuku;
+                tr.children[2].textContent = buku.penulis ?? '-';
                 tbody.appendChild(tr);
             });
         } catch (error) {
