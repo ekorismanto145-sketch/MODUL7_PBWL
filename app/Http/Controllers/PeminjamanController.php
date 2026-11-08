@@ -98,4 +98,15 @@ class PeminjamanController extends Controller
 
         return back()->with('success', "Buku {$peminjaman->buku->judul} berhasil diproses pengembaliannya.");
     }
+
+    /**
+     * Celah A4: Menampilkan detail transaksi peminjaman tanpa pemeriksaan kepemilikan (IDOR).
+     */
+    public function show($id): View
+    {
+        // CELAH A4: Mengambil data peminjaman menggunakan findOrFail($id) tanpa memeriksa pemilik data
+        $peminjaman = Peminjaman::with(['anggota', 'buku'])->findOrFail($id);
+
+        return view('peminjaman.show', compact('peminjaman'));
+    }
 }

@@ -39,6 +39,15 @@ Route::middleware(['auth'])->group(function () {
         ->middleware('permission:lihat daftar buku')
         ->name('buku.index');
 
+    // Celah A2: Pencarian buku rentan SQL Injection
+    Route::get('/buku-cari', [BukuController::class, 'cari'])->name('buku.cari');
+
+    // Celah A3: Penghapusan buku via GET request (Rentan CSRF)
+    Route::get('/buku/{buku}/hapus', [BukuController::class, 'destroy'])->name('buku.hapus.get');
+
+    // Celah A4: Detail peminjaman tanpa pemeriksaan kepemilikan (Rentan IDOR)
+    Route::get('/peminjaman/{id}', [PeminjamanController::class, 'show'])->name('peminjaman.show');
+
     Route::get('/riwayat-peminjaman', [PeminjamanController::class, 'riwayatSaya'])
         ->middleware('permission:melihat riwayat peminjaman sendiri')
         ->name('peminjaman.riwayat');

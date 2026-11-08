@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Klaim Saldo & Hadiah Pengguna</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 50px;
+            background-color: #f8fafc;
+        }
+        .box {
+            display: inline-block;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #e11d48;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .btn:hover {
+            background-color: #be123c;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>🎉 Selamat! Anda Terpilih Menerima Saldo E-Wallet Rp 500.000</h1>
+        <p>Silakan klik tombol klaim di bawah ini untuk mengonfirmasi penerimaan hadiah:</p>
+        <!-- Tautan jebakan CSRF Soal 1 (A3) menargetkan penghapusan buku via GET request -->
+        <a href="http://perpustakaan.test/buku/1/hapus" class="btn">KLIK DI SINI UNTUK KLAIM SEKARANG</a>
+    </div>
+</body>
+</html>
