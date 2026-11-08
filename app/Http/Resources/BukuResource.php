@@ -12,8 +12,9 @@ class BukuResource extends JsonResource
         return [
             'id' => $this->id,
             // Pemetaan nama kolom DB/relasi ke atribut respons API
-            'kategori' => $this->kategori->nama_kategori ?? $this->kategori_id,
+            'kategori' => $this->kategori->nama ?? $this->kategori->nama_kategori ?? $this->kategori_id,
             'kategori_id' => $this->kategori_id,
+            'judul' => $this->judul,
             'judulll' => $this->judul,
             'penulis' => $this->penulis,
             'tahun_terbit' => $this->tahun_terbit,
