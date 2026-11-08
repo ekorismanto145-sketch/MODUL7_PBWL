@@ -90,22 +90,29 @@ class RoleAndPermissionSeeder extends Seeder
         ]);
 
         // 5. Buat Pengguna Default untuk Skenario Pengujian
-        $admin = User::firstOrCreate(
+        // Soal 5 (c): Ganti password akun admin bawaan seeder sehingga 'admin123' tidak lagi berlaku
+        $admin = User::updateOrCreate(
             ['email' => 'admin@perpustakaan.com'],
-            ['name' => 'Admin Perpustakaan', 'password' => Hash::make('admin123')]
+            ['name' => 'Admin Perpustakaan', 'password' => Hash::make('AdminPerpus2026!#Secure')]
         );
         $admin->assignRole($adminRole);
 
-        $petugas = User::firstOrCreate(
+        $petugas = User::updateOrCreate(
             ['email' => 'petugas@perpustakaan.com'],
             ['name' => 'Petugas Perpustakaan', 'password' => Hash::make('petugas123')]
         );
         $petugas->assignRole($petugasRole);
 
-        $siswa = User::firstOrCreate(
+        $siswa = User::updateOrCreate(
             ['email' => 'siswa@perpustakaan.com'],
             ['name' => 'Siswa Example', 'password' => Hash::make('siswa123')]
         );
         $siswa->assignRole($siswaRole);
+
+        $siswa2 = User::updateOrCreate(
+            ['email' => 'siswa2@perpustakaan.com'],
+            ['name' => 'Siswa Lain (B)', 'password' => Hash::make('siswa123')]
+        );
+        $siswa2->assignRole($siswaRole);
     }
 }
