@@ -21,6 +21,7 @@
                     <th class="border p-3">Tgl Pinjam</th>
                     <th class="border p-3">Tgl Kembali</th>
                     <th class="border p-3 text-center">Status</th>
+                    <th class="border p-3 text-center">Detail</th>
                     <th class="border p-3 text-center">Aksi Petugas</th>
                 </tr>
             </thead>
@@ -42,6 +43,11 @@
                                 Sedang Dipinjam
                             </span>
                         @endif
+                    </td>
+                    <td class="border p-3 text-center">
+                        <a href="{{ route('peminjaman.show', $trx->id) }}" class="px-2.5 py-1 bg-sky-600 hover:bg-sky-700 text-white text-xs font-medium rounded shadow-sm inline-block">
+                            Lihat Detail
+                        </a>
                     </td>
                     <td class="border p-3 text-center">
                         @if(!$trx->tanggal_kembali)
