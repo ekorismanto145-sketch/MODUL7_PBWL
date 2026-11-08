@@ -39,11 +39,11 @@ Route::middleware(['auth'])->group(function () {
         ->middleware('permission:lihat daftar buku')
         ->name('buku.index');
 
-    // Celah A2: Pencarian buku rentan SQL Injection
+    // Pencarian buku aman
     Route::get('/buku-cari', [BukuController::class, 'cari'])->name('buku.cari');
 
-    // Celah A3: Penghapusan buku via GET request (Rentan CSRF)
-    Route::get('/buku/{buku}/hapus', [BukuController::class, 'destroy'])->name('buku.hapus.get');
+    // Route DELETE berproteksi CSRF untuk penghapusan buku
+    Route::delete('/buku/{buku}', [BukuController::class, 'destroy'])->name('buku.destroy');
 
     // Celah A4: Detail peminjaman tanpa pemeriksaan kepemilikan (Rentan IDOR)
     Route::get('/peminjaman/{id}', [PeminjamanController::class, 'show'])->name('peminjaman.show');

@@ -103,7 +103,7 @@
                                 </span>
                             </td>
                             <td>
-                                <strong class="text-dark">{!! $item->judul !!}</strong>
+                                <strong class="text-dark">{{ $item->judul }}</strong>
                             </td>
                             <td class="text-secondary">{{ $item->penulis ?? '-' }}</td>
                             <td class="text-center"><span class="badge bg-light text-dark border">{{ $item->tahun_terbit ?? '-' }}</span></td>
@@ -124,9 +124,13 @@
                                             <button class="btn btn-outline-warning" onclick="editBuku({{ $item->id }})" title="Ubah Data">
                                                 <i class="bi bi-pencil-square"></i> Ubah
                                             </button>
-                                            <a href="{{ url('/buku/' . $item->id . '/hapus') }}" class="btn btn-outline-danger" title="Hapus Data (Celah A3)">
-                                                <i class="bi bi-trash"></i> Hapus
-                                            </a>
+                                            <form action="{{ route('buku.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus buku ini?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-outline-danger" title="Hapus Data">
+                                                    <i class="bi bi-trash"></i> Hapus
+                                                </button>
+                                            </form>
                                         </div>
                                     @endcan
                                 </div>

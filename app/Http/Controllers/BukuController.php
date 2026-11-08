@@ -22,14 +22,14 @@ class BukuController extends Controller
     }
 
     /**
-     * Celah A2: Pencarian buku rentan SQL Injection melalui DB::select() dan string concatenation.
+     * Pencarian buku aman menggunakan binding parameter PDO (Mencegah SQL Injection).
      */
     public function cari(Request $request): JsonResponse
     {
         $judul = $request->query('judul');
 
-        // CELAH A2: Nilai judul digabungkan langsung ke string SQL tanpa prepared statement / binding
-        $buku = DB::select("SELECT * FROM bukus WHERE judul = '$judul'");
+        // PERBAIKAN A2: Menggunakan parameter binding (?) untuk mencegah manipulasi struktur query SQL
+        $buku = DB::select("SELECT * FROM bukus WHERE judul = ?", [$judul]);
 
         return response()->json($buku);
     }
