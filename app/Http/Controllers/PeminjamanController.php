@@ -7,6 +7,7 @@ use App\Models\Buku;
 use App\Models\Peminjaman;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
 class PeminjamanController extends Controller
@@ -100,12 +101,14 @@ class PeminjamanController extends Controller
     }
 
     /**
-     * Celah A4: Menampilkan detail transaksi peminjaman tanpa pemeriksaan kepemilikan (IDOR).
+     * Menampilkan detail transaksi peminjaman dilindungi Policy untuk mencegah IDOR (Soal 4).
      */
     public function show($id): View
     {
-        // CELAH A4: Mengambil data peminjaman menggunakan findOrFail($id) tanpa memeriksa pemilik data
         $peminjaman = Peminjaman::with(['anggota', 'buku'])->findOrFail($id);
+
+        // Soal 4: Memeriksa otorisasi view menggunakan PeminjamanPolicy
+        Gate::authorize('view', $peminjaman);
 
         return view('peminjaman.show', compact('peminjaman'));
     }
