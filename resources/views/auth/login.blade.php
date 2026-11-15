@@ -1,4 +1,9 @@
 <x-guest-layout>
+    <div class="mb-4 text-center">
+        <h2 class="text-xl font-bold text-gray-800">Sistem Perpustakaan Digital - 250441100136</h2>
+        <p class="text-xs text-gray-500 mt-1">Silakan masuk ke akun Anda</p>
+    </div>
+
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
