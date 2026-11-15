@@ -39,8 +39,15 @@ Route::middleware(['auth'])->group(function () {
         ->middleware('permission:lihat daftar buku')
         ->name('buku.index');
 
-    // Pencarian buku aman
+    // Pencarian buku
+    // SOAL 1 (A2 - Route pencarian yang memanggil method rentan SQL Injection):
+    // Route::get('/buku-cari', [BukuController::class, 'cari'])->name('buku.cari');
+
+    // SOAL 2 (A2 - Route pencarian aman):
     Route::get('/buku-cari', [BukuController::class, 'cari'])->name('buku.cari');
+
+    // SOAL 1 (A3 - Route hapus via GET yang rentan CSRF):
+    // Route::get('/buku/{buku}/hapus', [BukuController::class, 'destroy'])->name('buku.hapus.get');
 
     // Pengelolaan Buku Terpusat Menggunakan Gate kelola-buku (Soal 3)
     Route::middleware(['can:kelola-buku'])->group(function () {

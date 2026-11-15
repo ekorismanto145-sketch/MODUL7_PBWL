@@ -51,7 +51,10 @@
                                 </span>
                             </td>
                             <td>
-                                {{-- Soal 2 (a): Tampilkan judul buku dengan Blade escaping agar payload XSS dirender aman tanpa popup --}}
+                                <!-- {{-- SOAL 1 (A1 - Celah XSS tanpa escaping): --}}
+                                {{-- <strong class="text-dark">{!! $item->judul !!}</strong> --}} -->
+
+                                {{-- SOAL 2 (A1 - Perbaikan XSS dengan Blade escaping bawaan): --}}
                                 <strong class="text-dark">{{ $item->judul }}</strong>
                             </td>
                             <td class="text-secondary">{{ $item->penulis ?? '-' }}</td>
@@ -77,7 +80,13 @@
                                             <a href="{{ route('buku.edit', $item->id) }}" class="btn btn-outline-warning" title="Ubah Data">
                                                 <i class="bi bi-pencil-square"></i> Ubah
                                             </a>
-                                            {{-- Soal 2 (c): Penghapusan buku via DELETE form berproteksi @csrf --}}
+
+                                            {{-- SOAL 1 (A3 - Celah CSRF hapus via link GET): --}}
+                                            {{-- <a href="{{ url('/buku/' . $item->id . '/hapus') }}" class="btn btn-outline-danger" title="Hapus Data (Celah A3)">
+                                                <i class="bi bi-trash"></i> Hapus
+                                            </a> --}}
+
+                                            {{-- SOAL 2 (A3 - Perbaikan CSRF via form DELETE berproteksi @csrf): --}}
                                             <form action="{{ route('buku.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus buku ini?')">
                                                 @csrf
                                                 @method('DELETE')

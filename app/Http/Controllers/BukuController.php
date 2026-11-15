@@ -28,8 +28,11 @@ class BukuController extends Controller
     {
         $judul = $request->query('judul');
 
-        // PERBAIKAN A2: Menggunakan parameter binding (?) untuk mencegah manipulasi struktur query SQL
-        $buku = DB::select("SELECT * FROM bukus WHERE judul = ?", [$judul]);
+        // SOAL 1 (A2 - Rentan SQL Injection):
+        // $buku = DB::select("SELECT * FROM bukus WHERE judul = '$judul'");
+
+        // SOAL 2 (A2 - Perbaikan dengan Parameter Binding):
+        $buku = DB::select('SELECT * FROM bukus WHERE judul = ?', [$judul]);
 
         return response()->json($buku);
     }
